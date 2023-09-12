@@ -1,7 +1,7 @@
 # music-text-representation-pp
 
-- Official Python implementation of TTMR++ | [Paper](#) | [Project page](#/) 
-- Submitted to ICASSP 2023
+- Official Python implementation of TTMR++ (Improved Text-to-Music Retrieval)
+- Submitted to ICASSP 2024
 
 
 ## Updates
