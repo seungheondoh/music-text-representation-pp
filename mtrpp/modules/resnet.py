@@ -1,3 +1,4 @@
+# reference: https://github.com/openai/CLIP/blob/a1d071733d7111c9c014f024669f959182114e33/clip/model.py#L94
 import torch
 import torch.nn as nn
 from collections import OrderedDict

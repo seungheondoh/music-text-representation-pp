@@ -76,7 +76,7 @@ class ClsHead(nn.Module):
         loss = self.loss_fn(logits,y)
         return loss
 
-
+# https://github.com/openai/CLIP/issues/111#issuecomment-931955836
 class AllGatherFunction(torch.autograd.Function):
     @staticmethod
     def forward(ctx, tensor: torch.Tensor, reduce_dtype: torch.dtype = torch.float32):
@@ -95,7 +95,7 @@ class AllGatherFunction(torch.autograd.Function):
         dist.reduce_scatter(grad_input, input_list)
         return grad_input.to(grad_dtype)
 
-class AllReduceFunction(torch.autograd.Function):
+class AllGatherFunction_ReduceOnly(torch.autograd.Function):
     @staticmethod
     def forward(ctx, tensor):
         ctx.batch_size = tensor.shape[0]

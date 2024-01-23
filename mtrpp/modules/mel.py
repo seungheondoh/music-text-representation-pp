@@ -1,3 +1,4 @@
+# refernece: https://github.com/openai/whisper/blob/main/whisper/audio.py
 import os
 from functools import lru_cache
 import librosa
