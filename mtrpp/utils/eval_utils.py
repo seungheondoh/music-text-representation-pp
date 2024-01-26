@@ -40,7 +40,7 @@ def load_pretrain_model(args):
         model, sr, duration = load_baselines(args)
     return model, sr, duration
 
-def load_ttmr_pp(args, save_dir, model_types="last"):
+def load_ttmr_pp(save_dir, model_types="last"):
     config = OmegaConf.load(f'{save_dir}/hparams.yaml')
     pretrained_object = torch.load(f'{save_dir}/{model_types}.pth', map_location='cpu')
     state_dict = pretrained_object['state_dict']
