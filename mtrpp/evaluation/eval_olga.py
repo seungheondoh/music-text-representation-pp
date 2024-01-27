@@ -65,7 +65,7 @@ def main(args):
     )
     
     dataloader = torch.utils.data.DataLoader(
-        dataset, batch_size=312, shuffle=False,
+        dataset, batch_size=256, shuffle=False,
         num_workers=8, pin_memory=True, drop_last=False
         )
     

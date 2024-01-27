@@ -46,8 +46,8 @@ def msd_resampler(sample):
         os.system(f"touch error/msd/{fname}")
     
 def main(args):
-    args.target_legnth = int(args.sampling_rate, args.duraiton)
-    msd_pretrain = load_dataset("seungheondoh/MSD-enrich")
+    args.target_legnth = int(args.sampling_rate * args.duraiton)
+    msd_pretrain = load_dataset("seungheondoh/enrich-msd", split="train")
     annotation = []
     for item_dict in msd_pretrain["train"]:
         item_dict["data_dir"] = os.path.join(args.data_dir, args.dataset)
