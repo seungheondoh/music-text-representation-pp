@@ -1,4 +1,5 @@
 import os
+import argparse
 import random
 import torch
 import pickle
@@ -49,7 +50,7 @@ def main():
     model = model.to("cuda:1")
     model.eval()
     
-    dataset = AUDIO_DATASET(data_dir="/hdd2/seungheon/music4all/train")
+    dataset = AUDIO_DATASET(data_dir=args.data_dir)
     dataloader = torch.utils.data.DataLoader(
         dataset, batch_size=1, shuffle=False,
         num_workers=8, pin_memory=True, drop_last=False
@@ -57,7 +58,6 @@ def main():
     track_embs = {}
     for i in tqdm(dataloader):
         fname, audio_tensor = i
-        print(fname, audio_tensor.shape)
         B, C, T= audio_tensor.size()
         batch_audio = audio_tensor.view(-1, T)
         with torch.no_grad():
@@ -70,4 +70,7 @@ def main():
     torch.save(track_embs, os.path.join(save_dir, "embs", "musc4all", "track_embs_tr.pt"))
     
 if __name__ == "__main__":
-    main()  
+    parser = argparse.ArgumentParser(description='')
+    parser.add_argument('--data_dir', type=str)
+    args = parser.parse_args()
+    main(args)  
