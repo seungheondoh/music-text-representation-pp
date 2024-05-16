@@ -6,8 +6,7 @@ import pandas as pd
 from sklearn import metrics
 from omegaconf import DictConfig, OmegaConf
 from mtrpp.model.dual_encoder import DualEncoderModel
-from mtrpp.baselines import UniTTM, LAION_CLAP
-
+        
 def get_query2target_idx(query2target, target2idx):
     query2target_idx = {}
     for query, target_list in query2target.items():

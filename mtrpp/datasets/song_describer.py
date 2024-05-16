@@ -21,7 +21,7 @@ class SongDescriber(Dataset):
         self.caption_type = caption_type
         self.sr = sr
         self.n_samples = int(sr * duration)
-        self.dataset = load_dataset("#/song-describer-dataset")
+        self.dataset = load_dataset("music-temp/song-describer-dataset")
         self.get_split()
         self.get_columns()
 
@@ -52,7 +52,7 @@ class SongDescriber(Dataset):
         if self.audio_enc == ".npy": # for fast audio loading
             audio_path = os.path.join(self.data_dir, "npy", audio_path.replace(".mp3", self.audio_enc))
             audio = np.load(audio_path, mmap_mode='r')
-            audio = float32_to_int16(audio.astype('float32'))
+            audio = int16_to_float32(audio.astype('float32'))
         else:
             audio_path = os.path.join(self.data_dir, "audio", audio_path)
             audio, _ = load_audio(

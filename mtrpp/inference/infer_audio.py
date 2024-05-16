@@ -30,7 +30,7 @@ class AUDIO_DATASET(Dataset):
             downmix_to_mono= True)
         if len(audio.shape) == 2:
             audio = audio.squeeze(0)
-        audio = float32_to_int16(int16_to_float32(audio)) # for float32 loader
+        audio = int16_to_float32(float32_to_int16(audio)) # for float32 loader
         ceil = int(audio.shape[-1] // self.n_samples)
         audio_tensor = torch.from_numpy(np.stack(np.split(audio[:ceil * self.n_samples], ceil)).astype('float32'))
         return audio_tensor
@@ -44,10 +44,10 @@ class AUDIO_DATASET(Dataset):
     def __len__(self):
         return len(self.fl)
 
-def main(): 
+def main(args): 
     save_dir = f"exp/ttmrpp/meta_tag_caption_sim"
     model, sr, duration = load_ttmr_pp(save_dir)
-    model = model.to("cuda:1")
+    model = model.to(args.device)
     model.eval()
     
     dataset = AUDIO_DATASET(data_dir=args.data_dir)
@@ -61,7 +61,7 @@ def main():
         B, C, T= audio_tensor.size()
         batch_audio = audio_tensor.view(-1, T)
         with torch.no_grad():
-            audio_embs = model.audio_forward(batch_audio.to("cuda:1"))
+            audio_embs = model.audio_forward(batch_audio.to(args.device))
         unbatch_audio = audio_embs.view(B,C,-1)
         audio_embs = unbatch_audio.mean(1, False).detach().cpu()
         for name, embs in zip(fname, audio_embs):
@@ -72,5 +72,6 @@ def main():
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='')
     parser.add_argument('--data_dir', type=str)
+    parser.add_argument('--device', type=str)
     args = parser.parse_args()
     main(args)  

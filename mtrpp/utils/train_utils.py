@@ -17,6 +17,7 @@ class EarlyStopping():
         self.early_stop = False
 
     def min_stopping(self, valid_loss, best_valid_loss):
+        print(self.counter)
         if (valid_loss - best_valid_loss) > self.min_delta:
             self.counter +=1
             if self.counter >= self.tolerance:  
