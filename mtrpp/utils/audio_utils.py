@@ -63,7 +63,7 @@ def load_audio(
     ch_format: str,
     sample_rate: int = None,
     downmix_to_mono: bool = False,
-    resample_by: str = 'ffmpeg',
+    resample_by: str = 'librosa',
     **kwargs,
 ) -> Tuple[np.ndarray, int]:
     """A wrapper of librosa.load that:

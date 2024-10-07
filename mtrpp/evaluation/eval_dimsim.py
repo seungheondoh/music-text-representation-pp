@@ -103,30 +103,16 @@ def main(args):
         text2audio = _sim_matrix(query_embs, audio_embs)
         text2mix = _sim_matrix(audio_embs, mixed_embs)
         audio2audio = _sim_matrix(audio_embs, audio_embs)
-        if text2text[1] > text2text[2]:
-            pred_t2t.append(1)
-        else:
-            pred_t2t.append(0)
+
         if text2audio[1] > text2audio[2]:
             pred_t2a.append(1)
         else:
             pred_t2a.append(0)
-        if text2mix[1] > text2mix[2]:
-            pred_t2m.append(1)
-        else:
-            pred_t2m.append(0)
-        if audio2audio[1] > audio2audio[2]:
-            pred_a2a.append(1)
-        else:
-            pred_a2a.append(0)
 
     df_dimsim = dataset.dimsim_gt
     ground_truth = list(df_dimsim['song1_vote'])
     scores = {
-        "t2t_acc": metrics.accuracy_score(ground_truth, pred_t2t),
         "t2a_acc": metrics.accuracy_score(ground_truth, pred_t2a),
-        "t2m_acc": metrics.accuracy_score(ground_truth, pred_t2m),
-        "a2a_acc": metrics.accuracy_score(ground_truth, pred_a2a),
         "num_of_track": len(ground_truth)
     }
     os.makedirs(os.path.join(save_dir, args.data_type), exist_ok=True)

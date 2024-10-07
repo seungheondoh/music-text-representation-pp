@@ -33,10 +33,19 @@ def print_model_params(model):
 def load_pretrain_model(args):
     if args.model_type == "random":
         model, sr, duration  = torch.nn.Identity(), 48000, 10
-    elif args.model_type == "ttmr_pp":
-        model, sr, duration = load_unttim_pp(args)
-    else:
-        model, sr, duration = load_baselines(args)
+    elif args.model_type == "clap-music":
+        from mtrpp.baselines import LAION_CLAP
+        clap_dir = '/workspace/seungheon/dataset/model/clap'
+        model = LAION_CLAP(pretrain_dir=clap_dir, ckpt="music_audioset_epoch_15_esc_90.14.pt", device="cpu")
+        sr, duration = 48000, 10
+    elif args.model_type == "clap-fusion":
+        from mtrpp.baselines import LAION_CLAP
+        clap_dir = '/workspace/seungheon/dataset/model/clap'
+        model = LAION_CLAP(pretrain_dir=clap_dir, ckpt="630k-audioset-fusion-best.pt", device="cpu")
+        sr, duration = 48000, 10
+    else: # ttmr case
+        save_dir = f"../exp/ttmrpp/{args.model_type}"
+        model, sr, duration = load_ttmr_pp(save_dir)
     return model, sr, duration
 
 def load_ttmr_pp(save_dir, model_types="last"):
